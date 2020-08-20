@@ -41,7 +41,7 @@ const limiter = rateLimit({
 
 let Tweet = require("./models/Tweet");
 
-// app.use(cors());
+app.use(cors());
 // app.options("*", cors(corsOptions));
 // app.use(limiter);
 app.use(morgan("tiny"));
