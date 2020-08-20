@@ -41,7 +41,7 @@ const upload = multer({ storage: storage });
 
 // route pour avoir tous les utilisateurs
 router.get("/getAll", async function (req, res) {
-  const users = await User.find({});
+  const users = await User.find({}, { banner: 0, profilePicture: 0 });
   res.send(users);
 });
 
