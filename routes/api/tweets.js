@@ -5,19 +5,19 @@ const router = express.Router();
 let Tweet = require("../../models/Tweet");
 let User = require("../../models/User");
 
-const whitelist = ["http://localhost:3000", "http://localhost:5000"];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+// const whitelist = ["http://localhost:3000", "http://localhost:5000"];
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
 
 // route pour poster un nouveau tweet
-router.post("/new-tweet", cors(corsOptions), async function (req, res) {
+router.post("/new-tweet", async function (req, res) {
   const newTweet = new Tweet({
     tweetValue: req.body.tweetValue,
     writerId: req.body.writerId,
@@ -46,7 +46,7 @@ router.get("/:id", async function (req, res) {
 });
 
 // route pour avoir les tweets d'un utilisateur + ses retweets (page Account -> /user/:user)
-router.get("/user/:id", cors(corsOptions), async function (req, res) {
+router.get("/user/:id", async function (req, res) {
   const userTweets = await Tweet.find({ writerId: req.params.id }).sort({
     tweetedAt: -1,
   });
@@ -71,7 +71,7 @@ router.get("/user/:id", cors(corsOptions), async function (req, res) {
 });
 
 // route pour avoir les tweets + les retweets des abonnements d'un utilisateur (page Home -> /home)
-router.get("/following/:id", cors(corsOptions), async function (req, res) {
+router.get("/following/:id", async function (req, res) {
   const following = await User.find(
     { _id: req.params.id },
     { following: 1, _id: 0 }
@@ -89,13 +89,13 @@ router.get("/following/:id", cors(corsOptions), async function (req, res) {
 });
 
 // route pour supprimer un de ses tweets
-router.delete("/delete/:id", cors(corsOptions), async function (req, res) {
+router.delete("/delete/:id", async function (req, res) {
   const tweets = await Tweet.findByIdAndRemove({ _id: req.params.id });
   res.send(tweets);
 });
 
 // route pour liker un tweet
-router.post("/like/:idtweet", cors(corsOptions), async function (req, res) {
+router.post("/like/:idtweet", async function (req, res) {
   const currentUser = req.body.idUser;
   const idTweet = req.params.idtweet;
 
@@ -113,7 +113,7 @@ router.post("/like/:idtweet", cors(corsOptions), async function (req, res) {
 });
 
 // route pour retweeter un tweet
-router.post("/retweet/:idtweet", cors(corsOptions), async function (req, res) {
+router.post("/retweet/:idtweet", async function (req, res) {
   const currentUser = req.body.idUser;
   const idTweet = req.params.idtweet;
 
@@ -131,7 +131,7 @@ router.post("/retweet/:idtweet", cors(corsOptions), async function (req, res) {
 });
 
 // route pour déliker un tweet
-router.post("/unlike/:idtweet", cors(corsOptions), async function (req, res) {
+router.post("/unlike/:idtweet", async function (req, res) {
   const currentUser = req.body.idUser;
   const idTweet = req.params.idtweet;
 
@@ -149,10 +149,7 @@ router.post("/unlike/:idtweet", cors(corsOptions), async function (req, res) {
 });
 
 // route pour déretweeter un tweet
-router.post("/unretweet/:idtweet", cors(corsOptions), async function (
-  req,
-  res
-) {
+router.post("/unretweet/:idtweet", async function (req, res) {
   const currentUser = req.body.idUser;
   const idTweet = req.params.idtweet;
 
@@ -170,7 +167,7 @@ router.post("/unretweet/:idtweet", cors(corsOptions), async function (
 });
 
 // route pour protéger ses tweets
-router.post("/protected", cors(corsOptions), async function (req, res) {
+router.post("/protected", async function (req, res) {
   const currentUser = req.body.idUser;
   const isProtected = req.body.isProtected;
 
@@ -183,7 +180,7 @@ router.post("/protected", cors(corsOptions), async function (req, res) {
 });
 
 // route pour épingler un tweet
-router.post("/pin", cors(corsOptions), async function (req, res) {
+router.post("/pin", async function (req, res) {
   const currentUser = req.body.idUser;
   const idTweet = req.body.idTweet;
 
@@ -196,7 +193,7 @@ router.post("/pin", cors(corsOptions), async function (req, res) {
 });
 
 // route pour déépingler un tweet
-router.post("/unpin", cors(corsOptions), async function (req, res) {
+router.post("/unpin", async function (req, res) {
   const currentUser = req.body.idUser;
 
   const user = await User.updateOne({ _id: currentUser }, { pinnedTweet: "" });

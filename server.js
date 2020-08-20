@@ -23,25 +23,25 @@ const limiter = rateLimit({
   max: 100,
 });
 
-const whitelist = [
-  "http://localhost:3000",
-  "http://localhost:5000",
-  "https://ofilms.herokuapp.com",
-];
+// const whitelist = [
+//   "http://localhost:3000",
+//   "http://localhost:5000",
+//   "https://ofilms.herokuapp.com",
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
 
 let Tweet = require("./models/Tweet");
 
-app.use(cors());
+// app.use(cors());
 // app.options("*", cors(corsOptions));
 // app.use(limiter);
 app.use(morgan("tiny"));
